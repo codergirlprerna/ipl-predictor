@@ -1,4 +1,5 @@
-import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { MapPin, Calendar, ArrowLeft, MessageSquare, BarChart2 } from "lucide-react";
 import PredictionCard from "../components/ui/PredictionCard";
 import TeamBadge from "../components/ui/TeamBadge";
@@ -26,11 +27,24 @@ const VENUE_INFO = {
 };
 
 export default function MatchPage() {
-  const { id }     = useParams();
-  const match      = DUMMY_MATCHES.find(m => m.id === parseInt(id)) || DUMMY_MATCHES[0];
-  const isLive     = match.matchStatus === "live";
-  const isUpcoming = match.matchStatus === "upcoming";
-  const isLoggedIn = false;
+  const { id }       = useParams();
+  const { hash }     = useLocation();
+  const match        = DUMMY_MATCHES.find(m => m.id === parseInt(id)) || DUMMY_MATCHES[0];
+  const isLive       = match.matchStatus === "live";
+  const isUpcoming   = match.matchStatus === "upcoming";
+  const isLoggedIn   = false;
+
+  // ── Scroll to hash section after page renders ──
+  useEffect(() => {
+    if (!hash) return;
+    const id = hash.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [hash]);
 
   return (
     <div className="min-h-screen py-5 sm:py-8 px-4">
@@ -102,7 +116,7 @@ export default function MatchPage() {
         </div>
 
         {/* ── Sense Verdict ── */}
-        <div>
+        <div id="sense-verdict" style={{ scrollMarginTop: "80px" }}>
           <p className="section-label mb-2 sm:mb-3">🔮 Sense Verdict</p>
           <PredictionCard
             prediction={match.prediction}
@@ -120,7 +134,7 @@ export default function MatchPage() {
         />
 
         {/* ── H2H ── */}
-        <div>
+        <div id="h2h" style={{ scrollMarginTop: "80px" }}>
           <p className="section-label mb-2 sm:mb-3 flex items-center gap-2">
             <BarChart2 size={13} /> Head to Head
           </p>

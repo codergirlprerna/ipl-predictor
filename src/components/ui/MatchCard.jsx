@@ -43,8 +43,6 @@ export default function MatchCard({ match }) {
 
       {/* ── Teams Row ── */}
       <div className="flex items-center w-full">
-
-        {/* Team 1 */}
         <div className="w-[40%] flex items-center gap-1.5 min-w-0">
           <TeamBadge team={match.team1} size="md" />
           <div className="min-w-0">
@@ -58,7 +56,6 @@ export default function MatchCard({ match }) {
           </div>
         </div>
 
-        {/* Middle */}
         <div className="w-[20%] flex-shrink-0 flex items-center justify-center">
           {isUpcoming ? (
             <CountdownTimer targetDate={match.matchDate} />
@@ -72,7 +69,6 @@ export default function MatchCard({ match }) {
           )}
         </div>
 
-        {/* Team 2 */}
         <div className="w-[40%] flex items-center gap-1.5 min-w-0 justify-end">
           <div className="min-w-0 text-right">
             <p className="font-bold text-sm sm:text-base leading-tight" style={{ color: "#ffffff" }}>
@@ -96,8 +92,7 @@ export default function MatchCard({ match }) {
 
       {/* ── Sense Verdict Teaser ── */}
       {match.prediction?.isPublished ? (
-        <div className="rounded-xl p-3 space-y-2"
-             style={{ background: "#1A2E50" }}>
+        <div className="rounded-xl p-3 space-y-2" style={{ background: "#1A2E50" }}>
           <div className="flex items-center justify-between gap-2">
             <span style={{ color: "#94a3b8" }} className="font-mono uppercase tracking-wider text-[10px] sm:text-xs">
               Sense Verdict
@@ -130,12 +125,13 @@ export default function MatchCard({ match }) {
           </div>
           <span style={{ color: "#64748b" }} className="text-xs font-mono flex-shrink-0">Locked</span>
         </div>
-      ) : null /* completed with no prediction — show nothing */ }
+      ) : null}
 
       {/* ── CTA Buttons ── */}
       <div className="flex gap-2 pt-1 border-t border-white/5">
 
-        <Link to={`/match/${match.id}`}
+        {/* Sense Verdict → jumps to #sense-verdict on MatchPage */}
+        <Link to={`/match/${match.id}#sense-verdict`}
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl
                      bg-brand-orange hover:bg-brand-orange-dark
                      font-semibold transition-all
@@ -157,7 +153,8 @@ export default function MatchCard({ match }) {
             Live Chat 🔥
           </Link>
         ) : (
-          <Link to={`/match/${match.id}`}
+          /* Match Details / Match Report → jumps to #h2h on MatchPage */
+          <Link to={`/match/${match.id}#h2h`}
             className="flex-1 flex items-center justify-center py-2.5 rounded-xl
                        border border-white/20 hover:border-white/40
                        hover:bg-white/5 transition-all
