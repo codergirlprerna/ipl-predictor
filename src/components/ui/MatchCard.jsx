@@ -24,15 +24,15 @@ export default function MatchCard({ match }) {
   const isUpcoming  = match.matchStatus === "upcoming";
 
   return (
-    <div className="card card-hover p-4 sm:p-5 space-y-3 sm:space-y-4">
+    <div className="card card-hover p-4 sm:p-5 space-y-3 sm:space-y-4 overflow-hidden">
 
       {/* ── Top Row: Venue + Status ── */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 min-w-0" style={{ color: "#94a3b8" }}>
           <MapPin size={10} className="flex-shrink-0" />
-          <span className="truncate text-xs">{match.venue}, {match.city}</span>
+          <span className="truncate text-[11px]">{match.city}</span>
         </div>
-        <span className={`flex-shrink-0 text-xs px-2 py-0.5 rounded-full font-medium ${
+        <span className={`flex-shrink-0 text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${
           isLive     ? "bg-red-500/20 text-red-400 animate-pulse" :
           isUpcoming ? "bg-orange-500/20 text-orange-400" :
                        "bg-gray-500/20 text-gray-300"
