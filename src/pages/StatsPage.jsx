@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { TrendingUp, Award, Table2, CalendarDays } from "lucide-react";
 import { DUMMY_STATS, DUMMY_POINTS_TABLE } from "../data/dummy";
 import TeamBadge from "../components/ui/TeamBadge";
@@ -66,8 +67,23 @@ const SHORT = {
 // ────────────────────────────────────────────────────────────────────────────
 
 export default function StatsPage() {
-  const [activeTab, setActiveTab] = useState("points");
-  const [scheduleFilter, setScheduleFilter] = useState("all"); // all | upcoming | completed
+  const [searchParams] = useSearchParams();
+  const validTabs = ["points", "schedule", "orange", "purple"];
+  const tabFromUrl = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState(
+    validTabs.includes(tabFromUrl) ? tabFromUrl : "points"
+  );
+  const [scheduleFilter, setScheduleFilter] = useState("all");
+  const contentRef = useRef(null);
+
+  // Auto-scroll to content when landing from a deep link
+  useEffect(() => {
+    if (tabFromUrl && validTabs.includes(tabFromUrl)) {
+      setTimeout(() => {
+        contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, []);
 
   const tabs = [
     { id: "points",   label: "Points Table", icon: Table2      },
@@ -109,7 +125,8 @@ export default function StatsPage() {
           ))}
         </div>
 
-        {/* ── Points Table ── */}
+        {/* ── Tab Content ── */}
+        <div ref={contentRef} style={{ scrollMarginTop: "80px" }}>
         {activeTab === "points" && (
           <div className="card overflow-hidden">
             <div className="overflow-x-auto">
@@ -392,6 +409,7 @@ export default function StatsPage() {
         )}
 
       </div>
+        </div>
     </div>
   );
 }

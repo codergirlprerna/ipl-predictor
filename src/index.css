@@ -126,3 +126,12 @@ body::before {
   z-index: 0;
   opacity: 0.4;
 }
+
+/* ── Hide scrollbars everywhere ── */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
