@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: #0A1628;
+    color: #E8F0FE;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0A1628; }
+  ::-webkit-scrollbar-thumb { background: #FF6B2B; border-radius: 2px; }
+}
+
+@layer components {
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply bg-brand-orange hover:bg-brand-orange-dark font-body
+           font-semibold px-6 py-3 rounded-xl transition-all duration-200
+           hover:shadow-orange-glow hover:scale-[1.02] active:scale-[0.98];
+    color: #ffffff !important;
+  }
+  .btn-secondary {
+    @apply border border-surface-border hover:border-brand-orange font-body
+           font-medium px-6 py-3 rounded-xl transition-all duration-200
+           hover:bg-surface-hover;
+    color: #ffffff !important;
+  }
+  .btn-accent {
+    @apply bg-brand-accent hover:opacity-90 text-brand-blue font-body
+           font-bold px-6 py-3 rounded-xl transition-all duration-200;
+  }
+
+  /* ── Cards — hardcoded background so Tailwind purge can't strip it ── */
+  .card {
+    background: linear-gradient(145deg, #132238, #0F2040) !important;
+    border: 1px solid #1E3A5F;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s;
+    color: #E8F0FE;
+  }
+  .card-hover {
+    @apply card hover:-translate-y-0.5;
+  }
+  .card-hover:hover {
+    border-color: rgba(255, 107, 43, 0.4);
+    box-shadow: 0 0 20px rgba(255, 107, 43, 0.3);
+  }
+
+  /* ── Tags / Badges ── */
+  .badge-live {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30
+           text-xs font-mono font-medium px-2 py-0.5 rounded-full;
+  }
+  .badge-upcoming {
+    @apply bg-brand-orange/20 text-brand-orange border border-brand-orange/30
+           text-xs font-mono font-medium px-2 py-0.5 rounded-full;
+  }
+  .badge-completed {
+    @apply bg-green-500/20 text-green-400 border border-green-500/30
+           text-xs font-mono font-medium px-2 py-0.5 rounded-full;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    @apply text-brand-orange font-mono text-xs font-medium
+           uppercase tracking-widest;
+  }
+
+  /* ── Stat number ── */
+  .stat-number {
+    @apply font-display text-4xl text-white;
+  }
+
+  /* ── Input ── */
+  .input {
+    @apply border border-surface-border rounded-xl px-4 py-3
+           placeholder-slate-500 font-body
+           focus:outline-none focus:border-brand-orange/60
+           focus:ring-1 focus:ring-brand-orange/30
+           transition-all duration-200 w-full;
+    background-color: #132238 !important;
+    color: #ffffff !important;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply border-t border-surface-border;
+  }
+
+  /* ── Team color pills ── */
+  .team-csk  { @apply bg-yellow-500/20  text-yellow-400  border-yellow-500/30;  }
+  .team-mi   { @apply bg-blue-500/20    text-blue-400    border-blue-500/30;    }
+  .team-rcb  { @apply bg-red-500/20     text-red-400     border-red-500/30;     }
+  .team-srh  { @apply bg-orange-500/20  text-orange-400  border-orange-500/30;  }
+  .team-kkr  { @apply bg-purple-500/20  text-purple-400  border-purple-500/30;  }
+  .team-dc   { @apply bg-sky-500/20     text-sky-400     border-sky-500/30;     }
+  .team-gt   { @apply bg-teal-500/20    text-teal-400    border-teal-500/30;    }
+  .team-lsg  { @apply bg-cyan-500/20    text-cyan-400    border-cyan-500/30;    }
+  .team-rr   { @apply bg-pink-500/20    text-pink-400    border-pink-500/30;    }
+  .team-pbks { @apply bg-rose-500/20    text-rose-400    border-rose-500/30;    }
+
+  /* ── Surface hover ── */
+  .bg-surface-hover {
+    background-color: #1A2E50 !important;
+  }
+}
+
+/* ── Noise texture overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
