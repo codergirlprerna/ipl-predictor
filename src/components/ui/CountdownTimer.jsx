@@ -9,19 +9,20 @@ export default function CountdownTimer({ targetDate }) {
 
   const pad = n => String(n).padStart(2, '0')
 
-  const timeStr = [
-    timeLeft.hours > 0 && `${pad(timeLeft.hours)}h`,
-    `${pad(timeLeft.minutes)}m`,
-    `${pad(timeLeft.seconds)}s`,
-  ].filter(Boolean).join(' ')
+  // Format: 01h 58m 47s — always on one line, no wrapping
+  const parts = []
+  if (timeLeft.hours > 0) parts.push(`${pad(timeLeft.hours)}h`)
+  parts.push(`${pad(timeLeft.minutes)}m`)
+  parts.push(`${pad(timeLeft.seconds)}s`)
 
   return (
-    // Stack vertically — label on top, time below
-    // This keeps the middle column narrow on mobile
-    <div className="flex flex-col items-center gap-0.5">
-      <span className="section-label text-[9px] sm:text-xs">STARTS IN</span>
-      <span className="font-mono text-xs sm:text-sm font-bold text-brand-orange leading-tight">
-        {timeStr}
+    <div className="flex flex-col items-center gap-0.5 w-full">
+      <span className="section-label text-[9px] whitespace-nowrap">STARTS IN</span>
+      <span
+        className="font-mono font-bold text-brand-orange leading-tight whitespace-nowrap"
+        style={{ fontSize: timeLeft.hours > 0 ? "11px" : "13px" }}
+      >
+        {parts.join(' ')}
       </span>
     </div>
   )

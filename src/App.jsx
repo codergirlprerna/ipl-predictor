@@ -5,6 +5,7 @@ import { auth } from "./firebase/firebase";
 import { useUserProfile } from "./hooks/useUserProfile";
 
 import Layout from "./components/layout/Layout";
+import ErrorBoundary from "./components/ui/ErrorBoundary";
 import HomePage from "./pages/HomePage";
 import MatchPage from "./pages/MatchPage";
 import StatsPage from "./pages/StatsPage";
@@ -15,6 +16,19 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ChatPage from "./pages/ChatPage";
+import LandingPage from "./pages/LandingPage";
+
+
+// ─── Scroll To Top on Route Change ───────────────────────────────────────────
+import { useLocation } from "react-router-dom";
+
+function ScrollToTop() {
+  const { pathname, search } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname, search]);
+  return null;
+}
 
 // ─── Auth Context ─────────────────────────────────────────────────────────────
 export const AuthContext = createContext(null);
@@ -33,10 +47,10 @@ const ProtectedRoute = ({ children }) => {
 };
 
 // ─── Public Only Route ────────────────────────────────────────────────────────
-const PublicOnlyRoute = ({ children }) => {
+const PublicOnlyRoute = ({ children, fallback = null }) => {
   const { currentUser, loading, needsTeamSetup } = useAuth();
   if (loading) return <FullPageSpinner />;
-  if (currentUser && !needsTeamSetup) return <Navigate to="/" replace />;
+  if (currentUser && !needsTeamSetup) return fallback ? fallback : <Navigate to="/" replace />;
   return children;
 };
 
@@ -75,13 +89,21 @@ export default function App() {
       needsTeamSetup,
       setNeedsTeamSetup,
     }}>
+      <ErrorBoundary>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ScrollToTop />
         <Routes>
 
+          {/* ── Root: Landing for guests, /home for logged-in ── */}
+          <Route path="/" element={
+            <PublicOnlyRoute fallback={<Navigate to="/home" replace />}>
+              <LandingPage />
+            </PublicOnlyRoute>
+          } />
+
           {/* ── With navbar + footer ── */}
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="match/:id" element={<MatchPage />} />
+          <Route element={<Layout />}>
+            <Route path="home" element={<HomePage />} />
             <Route path="stats" element={<StatsPage />} />
             <Route path="leaderboard" element={<LeaderboardPage />} />
             <Route path="commentary" element={<CommentaryPage />} />
@@ -93,12 +115,14 @@ export default function App() {
           </Route>
 
           {/* ── Full screen — no navbar ── */}
+          <Route path="/match/:id" element={<MatchPage />} />
           <Route path="/match/:id/chat" element={<ChatPage />} />
           <Route path="/login"    element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
           <Route path="/register" element={<PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>} />
 
         </Routes>
       </BrowserRouter>
+      </ErrorBoundary>
     </AuthContext.Provider>
   );
 }

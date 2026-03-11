@@ -21,6 +21,7 @@ export const DUMMY_MATCHES = [
     matchNumber: 1,
     matchType: "league",
     matchStatus: "upcoming",
+    // tossResult: "CSK opt to bowl",   // ← uncomment when toss happens (backend sets this field)
     prediction: {
       predictedWinner: "CSK",
       confidencePct: 64,
@@ -102,3 +103,5 @@ export const DUMMY_POINTS_TABLE = [
   { team: "GT",   fullName: "Gujarat Titans",              played: 8, won: 2, lost: 6, nr: 0, points: 4,  nrr: -0.512, form: ["L","L","W","L","L"], playoffPct:  6 },
   { team: "LSG",  fullName: "Lucknow Super Giants",        played: 8, won: 2, lost: 6, nr: 0, points: 4,  nrr: -0.634, form: ["L","W","L","L","L"], playoffPct:  4 },
 ];
+
+

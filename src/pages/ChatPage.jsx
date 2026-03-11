@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Send, Zap, Lock } from "lucide-react";
 import TeamBadge from "../components/ui/TeamBadge";
 import { DUMMY_MATCHES } from "../data/dummy";
+import { useAuth } from "../App";
 
 // ── Dummy messages ────────────────────────────────────────────────────────────
 const INITIAL_MESSAGES = [
@@ -70,7 +71,8 @@ const avatarColor = (name) => {
 export default function ChatPage() {
   const { id } = useParams();
   const match  = DUMMY_MATCHES.find(m => m.id === parseInt(id)) || DUMMY_MATCHES[0];
-  const isLoggedIn = false; // swap with real auth
+  const { currentUser } = useAuth();
+  const isLoggedIn = !!currentUser;
 
   const [messages, setMessages]   = useState(INITIAL_MESSAGES);
   const [inputText, setInputText] = useState("");

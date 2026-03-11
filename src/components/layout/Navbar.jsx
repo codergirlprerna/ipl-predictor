@@ -18,7 +18,7 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { to: "/",            label: "Predictions" },
+    { to: "/home",        label: "Predictions" },
     { to: "/stats",       label: "Stats"       },
     { to: "/leaderboard", label: "Leaderboard" },
     { to: "/commentary",  label: "Commentary"  },
@@ -40,7 +40,7 @@ export default function Navbar() {
       <div className="max-w-4xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between gap-4">
 
         {/* ── Logo — pinned left ── */}
-        <Link to="/" className="flex items-center gap-2 group flex-shrink-0"
+        <Link to="/home" className="flex items-center gap-2 group flex-shrink-0"
           onClick={() => setMenuOpen(false)}>
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600
                           flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
